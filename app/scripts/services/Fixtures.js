@@ -35,7 +35,14 @@
          Fixtures.getAlbum = function(){
            return albumPicasso;
          };
-         
+
+         Fixtures.getCollection = function(numberOfAlbums){
+           this.collections = [];
+           for (var i = 0; i < numberOfAlbums; i++){
+             this.collections.push(angular.copy(albumPicasso));
+           }
+           return this.collections;
+         }
          return Fixtures;
      }
 
