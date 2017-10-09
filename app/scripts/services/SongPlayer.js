@@ -91,14 +91,12 @@
       currentBuzzObject.pause();
       song.playing = false;
     };
-    return SongPlayer;
-  };
 
   /**
   * @method SongPlayer.previous
   * @desc Plays previous song on album
   */
-  SongPlayer.previous = function() {
+  SongPlayer.previous = function(song) {
     var currentSongIndex = getSongIndex(SongPlayer.currentSong);
     currentSongIndex--;
 
@@ -127,6 +125,9 @@
       playSong(song);
     };
   };
+  
+return SongPlayer;
+};
 
   angular
   .module('blocJams')
