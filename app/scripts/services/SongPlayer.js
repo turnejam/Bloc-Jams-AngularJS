@@ -91,42 +91,44 @@
       currentBuzzObject.pause();
       song.playing = false;
     };
+
+    /**
+    * @method SongPlayer.previous
+    * @desc Plays previous song on album
+    */
+    SongPlayer.previous = function() {
+      var currentSongIndex = getSongIndex(SongPlayer.currentSong);
+      currentSongIndex--;
+
+      if (currentSongIndex < 0) {
+        stopSong(song);
+      } else {
+        var song = currentAlbum.songs[currentSongIndex];
+        setSong(song);
+        playSong(song);
+      };
+    };
+
+    /**
+    * @method SongPlayer.next
+    * @desc Plays next song on album
+    */
+    SongPlayer.next = function(){
+      var currentSongIndex = getSongIndex(SongPlayer.currentSong);
+      currentSongIndex++;
+
+      if (currentSongIndex > currentAlbum.songs.length){
+        stopSong(song);
+      } else{
+        var song = currentAlbum.songs[currentSongIndex];
+        setSong(song);
+        playSong(song);
+      };
+    };
+
     return SongPlayer;
   };
 
-  /**
-  * @method SongPlayer.previous
-  * @desc Plays previous song on album
-  */
-  SongPlayer.previous = function() {
-    var currentSongIndex = getSongIndex(SongPlayer.currentSong);
-    currentSongIndex--;
-
-    if (currentSongIndex < 0) {
-      stopSong(song);
-    } else {
-      var song = currentAlbum.songs[currentSongIndex];
-      setSong(song);
-      playSong(song);
-    };
-  };
-
-  /**
-  * @method SongPlayer.next
-  * @desc Plays next song on album
-  */
-  SongPlayer.next = function(){
-    var currentSongIndex = getSongIndex(SongPlayer.currentSong);
-    currentSongIndex++;
-
-    if (currentSongIndex > currentAlbum.songs.length){
-      stopSong(song);
-    } else{
-      var song = currentAlbum.songs[currentSongIndex];
-      setSong(song);
-      playSong(song);
-    };
-  };
 
   angular
   .module('blocJams')
