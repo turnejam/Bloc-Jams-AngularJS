@@ -25,28 +25,37 @@
         templateUrl: 'templates/directives/seek_bar.html',
         replace: true,
         restrict: 'E',
-        scope: { },
+        scope: {
+         onChange: '&'
+          },
         link: function(scope, element, attributes){
           /**
           * @attribute scope.value
           * @desc Holds the value of the seek bar, such as the currently playing song time or the current volume. Default value is 0.
           */
             scope.value=0;
+
             /**
             * @attribute scope.max
             * @desc Holds the maximum value of the song and volume seek bars. Default value is 100.
             */
             scope.max=100;
+
             /**
             * @attribute seekBar
             * @desc Holds the element that matches the directive (<seek-bar>) as a jQuery object so we can call jQuery methods on it.
             */
             var seekBar = $(element);
 
+            /**
+            * @desc runs $observe method on scope.value
+            */
             attributes.$observe('value', function(newValue) {
               scope.value = newValue;
             });
-
+            /**
+            * @desc runs $observe method on scope.max
+            */
             attributes.$observe('max', function(newValue) {
               scope.max = newValue;
             });
@@ -82,6 +91,7 @@
             scope.onClickSeekBar = function(event) {
              var percent = calculatePercent(seekBar, event);
              scope.value = percent * scope.max;
+             notifyOnChange(scope.value);
             };
             /**
             * @function scope.trackThumb
@@ -91,7 +101,8 @@
                 $document.bind('mousemove.thumb', function(event) {
                   var percent = calculatePercent(seekBar, event);
                   scope.$apply(function() {
-                    scope.value = percent * scope.max;
+                  scope.value = percent * scope.max;
+                  notifyOnChange(scope.value);
                   });
                 });
 
@@ -100,11 +111,19 @@
                 $document.unbind('mouseup.thumb');
                 });
               };
+            /**
+            * @function notifyOnChange
+            * @desc call onChange function to the html with the on-change attribute
+            */
+            var notifyOnChange = function(newValue) {
+     if (typeof scope.onChange === 'function') {
+         scope.onChange({value: newValue});
         }
       };
     }
-
-    angular
-        .module('blocJams')
-        .directive('seekBar', ['$document', seekBar]);
+}
+}
+angular
+    .module('blocJams')
+    .directive('seekBar', ['$document', seekBar]);
 })();

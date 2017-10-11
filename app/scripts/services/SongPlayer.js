@@ -1,5 +1,5 @@
 (function() {
-  function SongPlayer(Fixtures) {
+  function SongPlayer($rootScope, Fixtures) {
     var SongPlayer = {};
     /**
     * @desc object representing currently selected album
@@ -65,6 +65,12 @@
     SongPlayer.currentSong = null;
 
     /**
+    * @desc Current playback time (in seconds) of currently playing song
+    * @type {Number}
+    */
+    SongPlayer.currentTime = null;
+
+    /**
     * @method SongPlayer.play
     * @desc runs the setSong and playSong functions on a new song or paused song.
     * @param {Object} song
@@ -126,14 +132,22 @@
       };
     };
 
+    /**
+    * @function setCurrentTime
+    * @desc Set current time (in seconds) of currently playing song
+    * @param {Number} time
+    */
+    SongPlayer.setCurrentTime = function(time) {
+      if (currentBuzzObject) {
+         currentBuzzObject.setTime(time);
+      }
+    };
+
     return SongPlayer;
   };
-
-return SongPlayer;
-};
 
 
   angular
   .module('blocJams')
-  .factory('SongPlayer', ['Fixtures', SongPlayer]);
+  .factory('SongPlayer', ['$rootScope', 'Fixtures', SongPlayer]);
 })();
