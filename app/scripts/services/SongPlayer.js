@@ -76,6 +76,13 @@
     */
     SongPlayer.currentTime = null;
 
+
+    /**
+    * @desc Current volume of song.
+    * @type {Number}
+    */
+    SongPlayer.volume = 60;
+
     /**
     * @method SongPlayer.play
     * @desc runs the setSong and playSong functions on a new song or paused song.
@@ -148,6 +155,13 @@
          currentBuzzObject.setTime(time);
       }
     };
+
+    SongPlayer.setVolume = function (volume){
+      if (currentBuzzObject){
+        currentBuzzObject.setVolume(volume);
+      }
+      SongPlayer.volume = volume;
+    }
 
     return SongPlayer;
   };
