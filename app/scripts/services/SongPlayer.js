@@ -15,7 +15,7 @@
 
     /**
     * @function setSong
-    * @desc Stops currently playing song and loads new audio file as currentBuzzObject
+    * @desc Stops currently playing song and loads new audio file as currentBuzzObject, gets time update from currentBuzzObject
     * @param {Object} song
     */
     var setSong = function(song) {
@@ -27,6 +27,12 @@
       currentBuzzObject = new buzz.sound(song.audioUrl, {
         formats: ['mp3'],
         preload: true
+      });
+
+      currentBuzzObject.bind('timeupdate', function(){
+        $rootScope.$apply(function(){
+          SongPlayer.currentTime = currentBuzzObject.getTime();
+        });
       });
 
       SongPlayer.currentSong = song;
